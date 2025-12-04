@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Student Registration Form</title>
+    <!-- Load Tailwind CSS for modern, easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load jQuery for simpler DOM manipulation -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        /* Define a custom primary color for the application theme */
+        :root {
+            --primary-color: #1d4ed8; /* Blue-700 for a deep, modern look */
+        }
+        
+        /* Custom styles for the submit button to add a subtle lift effect */
+        .submit-button {
+            transition: all 0.2s ease;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px); /* Lifts the button slightly on hover */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- STYLING FOR THE INPUT BOXES --- */
+        .form-input-style {
+            /* Base style: subtle shadow, light border, good padding */
+            @apply mt-1 block w-full px-4 py-2 border-2 border-gray-200 rounded-xl shadow-inner transition duration-200 ease-in-out;
+            
+            /* Focus/Active style: makes the box stand out when the user is typing */
+            @apply focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:shadow-md;
+        }
+
+        /* Adjust the radio button size for better touch usability on mobile */
+        input[type="radio"] {
+            @apply h-5 w-5 text-blue-600 focus:ring-blue-500;
+        }
+
+        /* Ensure select elements use the same clean box style */
+        select.form-input-style {
+            /* Tailwind utility to ensure the arrow icon is visible and neat */
+            @apply appearance-none bg-white; 
+        }
+
+    </style>
+</head>
+<body class="bg-indigo-50 min-h-screen p-4 flex flex-col items-center justify-center font-sans">
+
+    <!-- Main Container: Holds the Form and the Results -->
+    <div class="w-full max-w-xl bg-white p-10 rounded-3xl shadow-2xl border-t-8 border-indigo-600">
+
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2 text-center">Course Enrollment Form</h1>
+        <p class="text-gray-500 mb-8 text-center text-md">All fields marked are required to complete registration.</p>
+
+        <!-- The Registration Form -->
+        <form id="registrationForm" class="space-y-6">
+            
+            <!-- Full Name and Email Row (Using Flexbox for responsive two-column layout on desktop) -->
+            <div class="grid md:grid-cols-2 md:gap-6 space-y-6 md:space-y-0">
+                <!-- 1. Full Name Input -->
+                <div>
+                    <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required 
+                           class="form-input-style" 
+                           placeholder="Alan Turing">
+                </div>
+
+                <!-- 2. Email Input -->
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
+                    <input type="email" id="email" name="email" required 
+                           class="form-input-style" 
+                           placeholder="alan@example.com">
+                </div>
+            </div>
+            
+            <!-- Phone and DOB Row -->
+            <div class="grid md:grid-cols-2 md:gap-6 space-y-6 md:space-y-0">
+                <!-- 3. Phone Number Input -->
+                <div>
+                    <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required 
+                           class="form-input-style" 
+                           placeholder="e.g., 555-1234">
+                </div>
+
+                <!-- 4. Date of Birth Input -->
+                <div>
+                    <label for="dob" class="block text-sm font-semibold text-gray-700 mb-1">Date of Birth *</label>
+                    <input type="date" id="dob" name="dob" required 
+                           class="form-input-style">
+                </div>
+            </div>
+
+            <!-- 5. Gender Radio Buttons -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Gender *</label>
+                <div class="flex space-x-6">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="gender" value="Male" required class="form-radio text-indigo-600 border-gray-300">
+                        <span class="ml-2 text-gray-700">Male</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="gender" value="Female" required class="form-radio text-indigo-600 border-gray-300">
+                        <span class="ml-2 text-gray-700">Female</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="gender" value="Other" required class="form-radio text-indigo-600 border-gray-300">
+                        <span class="ml-2 text-gray-700">Other</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 6. Address Textarea -->
+            <div>
+                <label for="address" class="block text-sm font-semibold text-gray-700 mb-1">Residential Address *</label>
+                <textarea id="address" name="address" rows="3" required
+                          class="form-input-style resize-none" 
+                          placeholder="Your complete mailing address"></textarea>
+            </div>
+            
+            <!-- 7. Course Selection -->
+            <div>
+                <label for="course" class="block text-sm font-semibold text-gray-700 mb-1">Select Course *</label>
+                <select id="course" name="course" required 
+                        class="form-input-style bg-white">
+                    <option value="">-- Choose a Course --</option>
+                    <option value="data_structures">Data Structures</option>
+                    <option value="web_development">Web Development & Design</option>
+                    <option value="artificial_intelligence">Artificial Intelligence & ML</option>
+                    <option value="operating_systems">Operating Systems</option>
+                </select>
+            </div>
+
+            <!-- 8. Comments/Goals Textarea -->
+            <div>
+                <label for="comments" class="block text-sm font-semibold text-gray-700 mb-1">Your Learning Goals (Optional)</label>
+                <textarea id="comments" name="comments" rows="3" 
+                          class="form-input-style resize-none" 
+                          placeholder="E.g., 'I want to build a career in AI research.'"></textarea>
+            </div>
+
+
+            <!-- Submit Button -->
+            <button type="submit" 
+                    class="submit-button w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-indigo-500 mt-8">
+                Submit Registration
+            </button>
+            
+        </form>
+        
+        <!-- Error Message Area -->
+        <div id="error-message" class="mt-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-800 rounded-lg hidden" role="alert">
+            <span class="font-bold">Error:</span> Please make sure all required fields are filled out correctly.
+        </div>
+
+    </div>
+
+    <!-- Results Display Area (Initially hidden) -->
+    <div id="output" class="hidden w-full max-w-xl mt-8 p-8 bg-green-50 rounded-3xl shadow-2xl border-t-8 border-green-500">
+        <h2 class="text-3xl font-bold text-green-800 mb-4">Registration Complete!</h2>
+        <p class="text-gray-600 mb-6">Your data has been processed and formatted below:</p>
+        
+        <!-- Data will be inserted here dynamically -->
+        <ul id="output-list" class="space-y-3 text-gray-800">
+            <!-- Data Display Items -->
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">Full Name:</span> <span id="out-name"></span>
+            </li>
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">Email:</span> <span id="out-email"></span>
+            </li>
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">Phone:</span> <span id="out-phone"></span>
+            </li>
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">D.O.B. / Gender:</span> <span id="out-dob"></span> / <span id="out-gender"></span>
+            </li>
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">Address:</span> <div id="out-address" class="whitespace-pre-wrap"></div>
+            </li>
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">Enrolled Course:</span> <span id="out-course" class="font-semibold text-green-600"></span>
+            </li>
+            <li class="p-3 bg-white rounded-lg shadow border border-green-100">
+                <span class="font-bold text-indigo-700 block text-sm">Goals:</span> <div id="out-comments" class="whitespace-pre-wrap italic"></div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- JAVASCRIPT / JQUERY LOGIC -->
+    <script>
+        // Use jQuery's ready function to ensure the DOM is fully loaded before running the script
+        $(document).ready(function() {
+
+            // 1. Listen for the form submission event
+            $('#registrationForm').on('submit', function(event) {
+                // Prevent the default browser form submission (which would reload the page)
+                event.preventDefault(); 
+                
+                // Clear previous messages and hide output
+                $('#error-message').addClass('hidden');
+                $('#output').addClass('hidden');
+                
+                // 2. Collect Data and Simple Validation
+                const fullName = $('#fullName').val().trim();
+                const email = $('#email').val().trim();
+                const phone = $('#phone').val().trim();
+                const dob = $('#dob').val().trim();
+                const gender = $('input[name="gender"]:checked').val(); // Gets value of selected radio
+                const address = $('#address').val().trim();
+                const courseValue = $('#course').val();
+                const comments = $('#comments').val().trim() || "No specific goals mentioned."; 
+                
+                // Basic Validation Check
+                if (fullName === "" || email === "" || phone === "" || dob === "" || address === "" || courseValue === "" || !gender) {
+                    // Show error message and stop processing
+                    $('#error-message').removeClass('hidden');
+                    return; 
+                }
+                
+                // 3. Helper Function to Format Text
+                const formatText = (text) => {
+                    // Replaces underscores with spaces and capitalizes the first letter of each word
+                    if (!text) return 'Not Specified';
+                    return text.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                };
+                
+                // 4. Process and Display Data (The "Success" Action)
+                
+                // Hide the form card and show the results card
+                $('#registrationForm').parent().addClass('hidden'); 
+                $('#output').removeClass('hidden'); 
+                
+                // Insert the collected data into the output area
+                $('#out-name').text(fullName);
+                $('#out-email').text(email);
+                $('#out-phone').text(phone);
+                $('#out-dob').text(dob);
+                $('#out-gender').text(gender);
+                $('#out-address').text(address); 
+                $('#out-course').text(formatText(courseValue));
+                $('#out-comments').text(comments);
+                
+            });
+        });
+    </script>
+</body>
+</html>
